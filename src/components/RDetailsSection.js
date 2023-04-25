@@ -11,7 +11,9 @@ export default function RDetailsSection({
     return (
         <Card className={`${theme === 'dark' ? 'bg-white text-dark' : 'bg-dark text-white'} ${className}`}>
             <Card.Header>
-                <strong>{title}</strong>
+                {title}
+                {/* <i className="fa fa-pen"></i>{" "}
+                <strong>{title}</strong> */}
             </Card.Header>
             <Card.Body>
                 {children}
