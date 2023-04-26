@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
+import RegisterPage from "../pages/Auth/RegisterPage";
 
 const HomePage = lazy(() => import("../pages/Home/HomePage"));
 const LoginPage = lazy(() => import("../pages/Auth/LoginPage"));
@@ -13,7 +14,7 @@ const PUBLIC_ROUTES = [{
     path: "/auth/*",
     element: <Routes>
         <Route index element={<LoginPage />} />
-        <Route path="/register" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
     </Routes>
 }];
 export {

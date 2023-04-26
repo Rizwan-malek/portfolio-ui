@@ -241,6 +241,42 @@ export default function HomePage() {
                     </table>
                 </div>
             </RDetailsSection>
+            <RDetailsSection
+                title={<><i className="fa fa-certificate"></i>{" "}<strong>Licenses and Certifications</strong></>}
+                className='mb-2'>
+                <div className='table-responsive'>
+                    <table className={`table ${theme === 'dark' ? 'text-dark' : 'text-white'}`}>
+                        <thead>
+                            <tr>
+                                <th>Become an expert React JS Developer. Learn HTML, CSS, JavaScript, ES6, React JS and jQuery.</th>
+                            </tr>
+                            <tr>
+                                <td>Udemy</td>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table className={`table ${theme === 'dark' ? 'text-dark' : 'text-white'}`}>
+                        <thead>
+                            <tr>
+                                <th>Student Co-ordinator (VIVACITY-2021)</th>
+                            </tr>
+                            <tr>
+                                <td>Sarvajanik College of Engineering & Technology</td>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table className={`table ${theme === 'dark' ? 'text-dark' : 'text-white'}`}>
+                        <thead>
+                            <tr>
+                                <th>Junior Software Engineer (SKILL INDIA - PMKY)</th>
+                            </tr>
+                            <tr>
+                                <td>National Skill Development Corporation</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </RDetailsSection>
         </Container>
     </>)
 };
