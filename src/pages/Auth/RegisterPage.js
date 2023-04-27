@@ -1,17 +1,19 @@
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from '../../layouts/Container';
 import RDetailsSection from "../../components/RDetailsSection";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { authUserRegister } from "../../redux/api/auth";
-
+import RSpinner from "../../components/RSpinner";
 
 export default function RegisterPage() {
+    document.title = "PORTFOLIO | REGISTER";
 
+    const { isLoading, } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -20,7 +22,7 @@ export default function RegisterPage() {
         lastName: Yup.string().required("Last name is required"),
         contactNumber: Yup.string().test("contactNumber", "Contact number is invalid", (value) => {
             if (value) {
-                return !isNaN(value) && `${value}`.length == 10
+                return !isNaN(value) && `${value}`.length === 10
             }
             return true;
         }),
@@ -34,7 +36,7 @@ export default function RegisterPage() {
 
     const handleRegisterSubmit = (data) => {
         dispatch(authUserRegister(data, () => {
-            navigate("/");
+            navigate("/auth");
         }));
     }
     return (<>
@@ -42,7 +44,11 @@ export default function RegisterPage() {
             <RDetailsSection
                 title={<><i className="fa fa-user-plus"></i>{" "}<strong>Create account</strong></>}
                 className='mt-2'>
-                <Form onSubmit={handleSubmit(handleRegisterSubmit)} noValidate>
+                {isLoading &&
+                    <div className="d-flex justify-content-center pt-3">
+                        <RSpinner />
+                    </div>}
+                {!isLoading && <Form onSubmit={handleSubmit(handleRegisterSubmit)} noValidate>
                     <Form.Group className="mb-3" controlId="firstName">
                         <Form.Label>First name <span className="text-danger">*</span> </Form.Label>
                         <Form.Control {...register("firstName")} type="text" placeholder="Enter first name" isInvalid={!!errors.firstName} />
@@ -76,7 +82,7 @@ export default function RegisterPage() {
                             Already have account ?, Login now
                         </Button>
                     </div>
-                </Form>
+                </Form>}
 
             </RDetailsSection>
         </Container>

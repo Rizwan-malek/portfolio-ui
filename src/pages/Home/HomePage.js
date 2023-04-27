@@ -9,8 +9,8 @@ const uniqueKey = (prefix = 'key') => {
     lastCount++;
     return `${prefix}${lastCount}`;
 }
-
 export default function HomePage() {
+    document.title = "PORTFOLIO | HOME";
     const { theme } = useSelector(state => state.theme);
     return (<>
         <Container className='pt-2 min-vh-100'>

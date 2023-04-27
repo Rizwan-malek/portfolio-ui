@@ -6,6 +6,7 @@ import { PUBLIC_ROUTES } from "./routes";
 import { changeTheme } from "./redux/action/theme";
 import { ToastContainer } from "react-toastify";
 
+
 function App() {
   const { theme } = useSelector(state => state.theme);
   const dispatch = useDispatch();

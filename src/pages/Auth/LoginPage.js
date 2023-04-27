@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,10 +7,15 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from '../../layouts/Container';
 import RDetailsSection from "../../components/RDetailsSection";
-
+import { authUserLogin } from "../../redux/api/auth";
+import RSpinner from "../../components/RSpinner";
 
 export default function LoginPage() {
-    const { theme } = useSelector(state => state.theme);
+    document.title = "PORTFOLIO | LOGIN";
+
+    const { isLoading, } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+
     const navigate = useNavigate();
 
     const formValidationSchema = Yup.object({
@@ -21,14 +26,24 @@ export default function LoginPage() {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formValidationSchema)
     });
-    console.log('errors ==> ', errors);
+
+    const handleLoginSubmit = (data) => {
+        dispatch(authUserLogin(data, () => {
+            navigate("/");
+        }));
+    }
+
 
     return (<>
         <Container className='pt-2 min-vh-100'>
             <RDetailsSection
                 title={<><i className="fa fa-sign-in"></i>{" "}<strong>Login</strong></>}
                 className='mt-2'>
-                <Form onSubmit={handleSubmit(() => { })} noValidate>
+                {isLoading &&
+                    <div className="d-flex justify-content-center pt-3">
+                        <RSpinner />
+                    </div>}
+                {!isLoading && <Form onSubmit={handleSubmit(handleLoginSubmit)} noValidate>
                     <Form.Group className="mb-3" controlId="email">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control {...register("email")} type="email" placeholder="Enter email" isInvalid={!!errors.email} />
@@ -50,8 +65,7 @@ export default function LoginPage() {
                             Create new account ?
                         </Button>
                     </div>
-                </Form>
-
+                </Form>}
             </RDetailsSection>
         </Container>
     </>)
