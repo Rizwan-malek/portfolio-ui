@@ -6,9 +6,13 @@ import Form from 'react-bootstrap/Form';
 import Container from '../../layouts/Container';
 import RDetailsSection from "../../components/RDetailsSection";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authUserRegister } from "../../redux/api/auth";
 
 
 export default function RegisterPage() {
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const formValidationSchema = Yup.object({
@@ -27,14 +31,18 @@ export default function RegisterPage() {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formValidationSchema)
     });
-    console.log('errors ==> ', errors);
 
+    const handleRegisterSubmit = (data) => {
+        dispatch(authUserRegister(data, () => {
+            navigate("/");
+        }));
+    }
     return (<>
         <Container className='pt-2 min-vh-100'>
             <RDetailsSection
                 title={<><i className="fa fa-user-plus"></i>{" "}<strong>Create account</strong></>}
                 className='mt-2'>
-                <Form onSubmit={handleSubmit(() => { })} noValidate>
+                <Form onSubmit={handleSubmit(handleRegisterSubmit)} noValidate>
                     <Form.Group className="mb-3" controlId="firstName">
                         <Form.Label>First name <span className="text-danger">*</span> </Form.Label>
                         <Form.Control {...register("firstName")} type="text" placeholder="Enter first name" isInvalid={!!errors.firstName} />
@@ -59,7 +67,8 @@ export default function RegisterPage() {
                         <Form.Label>Password <span className="text-danger">*</span></Form.Label>
                         <Form.Control {...register("password")} type="password" placeholder="Enter password" isInvalid={!!errors.password} />
                         {!!errors.password && <Form.Control.Feedback type="invalid">{errors.password.message}</Form.Control.Feedback>}
-                    </Form.Group>                    <div className="d-flex gap-2">
+                    </Form.Group>
+                    <div className="d-flex gap-2">
                         <Button variant="secondary" type="submit">
                             Submit details
                         </Button>

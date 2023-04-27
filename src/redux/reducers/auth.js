@@ -25,6 +25,22 @@ const auth = (state = initialState, { type, status, payload }) => {
                     return failed;
                 default: return state;
             }
+        case "AUTH_USER_REGISTER":
+            switch (status) {
+                case "PENDING":
+                    return pending;
+                case "SUCCESS":
+                    return {
+                        ...state,
+                        token: payload.token,
+                        user: payload.user,
+                        message: payload.message,
+                        isLoading: false
+                    };
+                case "FAILED":
+                    return failed;
+                default: return state;
+            }
         default:
             return state;
     }
