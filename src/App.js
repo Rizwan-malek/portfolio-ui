@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 import RSplashScreen from "./components/RSplashScreen";
 import { PUBLIC_ROUTES } from "./routes";
@@ -11,13 +11,13 @@ function App() {
 
   return (
     <Suspense fallback={<RSplashScreen />}>
-      <HashRouter>
+      <BrowserRouter>
         <Routes>
           {PUBLIC_ROUTES.map((route, i) => (
             <Route key={i} path={route.path} element={route.element} />
           ))}
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
       <button
         type="button"
         className="btn btn-secondary back-to-top btn-lg"
