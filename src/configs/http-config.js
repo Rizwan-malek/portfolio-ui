@@ -8,7 +8,6 @@ AxiosInstance.interceptors.request.use(function (config) {
 }, function (error) {
     return Promise.reject(error);
 });
-// test
 AxiosInstance.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
