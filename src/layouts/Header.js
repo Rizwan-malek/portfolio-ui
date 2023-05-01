@@ -23,7 +23,7 @@ function Header() {
                         <Nav.Link onClick={() => navigate("/")}>
                             <i className="fa fa-home"></i> Home
                         </Nav.Link>
-                        <Nav.Link onClick={() => navigate("/portfolio/create")}>
+                        <Nav.Link onClick={() => navigate("/portfolio/create/personal")}>
                             <i className="fa fa-plus"></i> Create Portfolio
                         </Nav.Link>
                         <Nav.Link onClick={() => navigate("/portfolio")}>
@@ -33,10 +33,10 @@ function Header() {
                     <Nav>
                         {token ?
                             <NavDropdown title={<><i className="fa fa-cog"></i> Settigns</>} id="collasible-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1">
+                                <NavDropdown.Item onClick={() => navigate("/auth/profile")}>
                                     <i className="fa fa-user"></i> Profile
                                 </NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.1">
+                                <NavDropdown.Item onClick={() => navigate("/auth/change-password")}>
                                     <i className="fa fa-key"></i> Change password
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider />

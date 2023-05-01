@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 
 
 export default function RDetailsSection({
-    title = "",
+    title = <></>,
     className = "",
     children
 }) {
@@ -12,8 +12,6 @@ export default function RDetailsSection({
         <Card className={`${theme === 'dark' ? 'bg-white text-dark' : 'bg-dark text-white'} ${className}`}>
             <Card.Header>
                 {title}
-                {/* <i className="fa fa-pen"></i>{" "}
-                <strong>{title}</strong> */}
             </Card.Header>
             <Card.Body>
                 {children}

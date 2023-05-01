@@ -2,6 +2,7 @@
   "name": "portfolio-ui",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://644a5c683c76cc0685696230--portfolio-by-rizwan.netlify.app/",
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
     "@testing-library/jest-dom": "^5.16.5",

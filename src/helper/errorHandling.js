@@ -1,6 +1,16 @@
 // import { authUserLogout } from "src/redux/api/auth";
 import RToast from "../components/RToast";
 
+/**
+ * 
+ * @param {
+ * } ACTION 
+ * @param {*} dispatch 
+ * @param {*} error 
+ * 
+ * @description (ACTION, dispatch, error)
+ */
+
 function errorHandling(ACTION, dispatch, error) {
     if (error.response) {
         if (error.response.data.message === "Unauthorized access") {
