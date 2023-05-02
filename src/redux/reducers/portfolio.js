@@ -14,7 +14,10 @@ const portfolio = (state = initialState, { type, status, payload }) => {
                     return pending;
                 case "SUCCESS":
                     return {
-                        requestPayload: payload,
+                        requestPayload: {
+                            ...state.requestPayload,
+                            ...payload
+                        },
                         isLoading: false
                     }
                 case "FAILED":
@@ -25,3 +28,4 @@ const portfolio = (state = initialState, { type, status, payload }) => {
         default: return state
     }
 }
+export default portfolio;

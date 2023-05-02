@@ -42,7 +42,7 @@ export default function AchievementDetails() {
     }
     return (<>
         <RDetailsSection
-            title={<><i className="fas fa-address-card"></i>{" "}<strong>Contact details</strong></>}
+            title={<><i className="fa fa-certificate"></i>{" "}<strong>Achievement details</strong></>}
             className='mt-2'>
             {isLoading &&
                 <div className="d-flex justify-content-center pt-3">

@@ -13,6 +13,7 @@ const ExperienceDetails = lazy(() => import("./Components/ExperienceDetails"));
 const SkillDetails = lazy(() => import("./Components/SkillDetails"));
 const ProjectDetails = lazy(() => import("./Components/ProjectDetails"));
 const AchievementDetails = lazy(() => import("./Components/AchievementDetails"));
+const CertificateDetails = lazy(() => import("./Components/CertificateDetails"));
 
 
 
@@ -43,6 +44,7 @@ export default function AddEditPage() {
                     <Route path="/skill" element={<SkillDetails />} />
                     <Route path="/project" element={<ProjectDetails />} />
                     <Route path="/achievement" element={<AchievementDetails />} />
+                    <Route path="/certificate" element={<CertificateDetails />} />
                 </Routes>
             </Suspense>
             <div className="mt-2">

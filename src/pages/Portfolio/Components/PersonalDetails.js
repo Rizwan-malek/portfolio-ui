@@ -1,31 +1,41 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Form from 'react-bootstrap/Form';
 import RDetailsSection from "../../../components/RDetailsSection";
 import RSpinner from "../../../components/RSpinner";
 import { makingPortfolioPayload } from "../../../redux/action/portfolio";
+import { useEffect } from "react";
 
 export default function PersonalDetails() {
     document.title = "PORTFOLIO | PERSONAL DETAILS";
 
     const { isLoading, } = useSelector(state => state.auth);
+    const { requestPayload } = useSelector(state => state.portfolio);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+
     const formValidationSchema = Yup.object({
         firstName: Yup.string().required("First name is required"),
         lastName: Yup.string().required("Last name is required"),
     });
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
         resolver: yupResolver(formValidationSchema)
     });
 
+    useEffect(() => {
+        if (requestPayload?.personalDetails) {
+            Object.keys(requestPayload?.personalDetails).forEach((key) => {
+                setValue(key, requestPayload?.personalDetails[key]);
+            })
+        }
+    }, [requestPayload]);
+
     const handleRegisterSubmit = (data) => {
-        dispatch(makingPortfolioPayload(data));
+        dispatch(makingPortfolioPayload({ personalDetails: data }));
     }
+    console.log('render ==> ');
 
     return (<>
         <RDetailsSection

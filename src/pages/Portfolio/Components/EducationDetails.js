@@ -7,40 +7,53 @@ import RDetailsSection from "../../../components/RDetailsSection";
 import RSpinner from "../../../components/RSpinner";
 import { makingPortfolioPayload } from "../../../redux/action/portfolio";
 import { Col, Row } from "react-bootstrap";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
-export default function ContactDetails() {
-    document.title = "PORTFOLIO | CONTACT DETAILS";
+export default function EducationDetails() {
+    document.title = "PORTFOLIO | EDUCATION DETAILS";
 
     const { isLoading, } = useSelector(state => state.auth);
+    const { isLoading: isLoadingPortfolio, requestPayload } = useSelector(state => state.portfolio);
     const dispatch = useDispatch();
 
     const formValidationSchema = {
-        contactTitle: Yup.string().required("Contact title is required"),
-        contactValue: Yup.string().required("Contact value is required"),
+        educationTitle: Yup.string().required("Title is required"),
+        marks: Yup.string().required("Marks is required"),
     };
 
     const schema = Yup.object({
-        contact: Yup.array()
+        education: Yup.array()
             .of(Yup.object().shape(formValidationSchema))
     });
 
-    const { register, handleSubmit, formState: { errors }, control } = useForm({
+    const { register, handleSubmit, formState: { errors }, control, reset } = useForm({
         resolver: yupResolver(schema),
-        defaultValues: {
-            education: [{
-                contactTitle: '',
-                contactValueL: ''
-            }]
-        }
+        // defaultValues: {
+        //     education: [{
+        //         contactTitle: '',
+        //         contactValueL: ''
+        //     }]
+        // }
     });
-    const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
+    const { fields, append, remove, } = useFieldArray({
         control,
         name: "education",
     });
 
-    const handleRegisterSubmit = (data) => {
-        dispatch(makingPortfolioPayload(data));
+    useEffect(() => {
+        if (requestPayload?.educationDetaiils) {
+            requestPayload?.educationDetaiils?.education?.forEach((detail) => {
+                append(detail)
+            })
+        }
+        return () => {
+            reset();
+        }
+    }, [requestPayload]);
+
+
+    const handleEducationSubmit = (data) => {
+        dispatch(makingPortfolioPayload({ educationDetaiils: data }));
     }
     return (<>
         <RDetailsSection
@@ -50,41 +63,41 @@ export default function ContactDetails() {
                 <div className="d-flex justify-content-center pt-3">
                     <RSpinner />
                 </div>}
-            {!isLoading && <Form onSubmit={handleSubmit(handleRegisterSubmit)} noValidate>
+            {!isLoading && <Form onSubmit={handleSubmit(handleEducationSubmit)} noValidate>
                 {fields.map((field, i) => (
                     <Fragment key={i}>
                         <Row className="mb-2">
                             <Col xs={12} sm={12} md={5} lg={5}>
-                                <Form.Group controlId="firstName">
+                                <Form.Group controlId="title">
                                     <Form.Label>Title <span className="text-danger">*</span> </Form.Label>
-                                    <Form.Control {...register(`education.${i}.contactTitle`)} type="text" placeholder="Enter first name" isInvalid={!!errors?.contact?.[i]?.contactTitle} />
-                                    {!!errors?.contact?.[i]?.contactTitle && <Form.Control.Feedback type="invalid">{errors?.contact?.[i]?.contactTitle?.message}</Form.Control.Feedback>}
+                                    <Form.Control {...register(`education.${i}.educationTitle`)} type="text" placeholder="Enter title" isInvalid={!!errors?.education?.[i]?.educationTitle} />
+                                    {!!errors?.education?.[i]?.educationTitle && <Form.Control.Feedback type="invalid">{errors?.education?.[i]?.educationTitle?.message}</Form.Control.Feedback>}
                                 </Form.Group>
                             </Col>
                             <Col xs={12} sm={12} md={5} lg={5}>
-                                <Form.Group controlId="middleName">
+                                <Form.Group controlId="marks">
                                     <Form.Label>Marks <span className="text-danger">*</span> </Form.Label>
-                                    <Form.Control {...register(`education.${i}.contactValue`)} type="text" placeholder="Enter last name" isInvalid={!!errors?.contact?.[i]?.contactValue} />
-                                    {!!errors?.contact?.[i]?.contactValue && <Form.Control.Feedback type="invalid">{errors?.contact?.[i]?.contactValue?.message}</Form.Control.Feedback>}
+                                    <Form.Control {...register(`education.${i}.marks`)} type="text" placeholder="Enter last name" isInvalid={!!errors?.education?.[i]?.marks} />
+                                    {!!errors?.education?.[i]?.marks && <Form.Control.Feedback type="invalid">{errors?.education?.[i]?.marks?.message}</Form.Control.Feedback>}
                                 </Form.Group>
                             </Col>
                             <Col xs={12} sm={12} md={5} lg={5} className="mt-2">
-                                <Form.Group controlId="middleName">
+                                <Form.Group controlId="startDate">
                                     <Form.Label>Start date <span className="text-danger">*</span> </Form.Label>
-                                    <Form.Control {...register(`education.${i}.contactValue`)} type="text" placeholder="Enter last name" isInvalid={!!errors?.contact?.[i]?.contactValue} />
-                                    {!!errors?.contact?.[i]?.contactValue && <Form.Control.Feedback type="invalid">{errors?.contact?.[i]?.contactValue?.message}</Form.Control.Feedback>}
+                                    <Form.Control {...register(`education.${i}.startDate`)} type="date" placeholder="Enter last name" isInvalid={!!errors?.education?.[i]?.startDate} />
+                                    {!!errors?.education?.[i]?.startDate && <Form.Control.Feedback type="invalid">{errors?.education?.[i]?.startDate?.message}</Form.Control.Feedback>}
                                 </Form.Group>
                             </Col>
                             <Col xs={12} sm={12} md={5} lg={5} className="mt-2">
-                                <Form.Group controlId="middleName">
+                                <Form.Group controlId="endDate">
                                     <Form.Label>End date <span className="text-danger">*</span> </Form.Label>
-                                    <Form.Control {...register(`education.${i}.contactValue`)} type="text" placeholder="Enter last name" isInvalid={!!errors?.contact?.[i]?.contactValue} />
-                                    {!!errors?.contact?.[i]?.contactValue && <Form.Control.Feedback type="invalid">{errors?.contact?.[i]?.contactValue?.message}</Form.Control.Feedback>}
+                                    <Form.Control {...register(`education.${i}.endDate`)} type="date" placeholder="Enter last name" isInvalid={!!errors?.education?.[i]?.endDate} />
+                                    {!!errors?.education?.[i]?.endDate && <Form.Control.Feedback type="invalid">{errors?.education?.[i]?.endDate?.message}</Form.Control.Feedback>}
                                 </Form.Group>
                             </Col>
                             <Col xs={12} sm={12} md={2} lg={2} className={"pt-3"}>
                                 <Form.Group className="mb-3 d-flex justify-content-end" controlId="buttonGroup">
-                                    <button onClick={() => remove(i)} className="btn btn-sm btn-secondary">
+                                    <button onClick={() => remove(i)} className="btn btn-sm btn-secondary" type="button">
                                         <i className="fa fa-trash"></i>
                                     </button>
                                 </Form.Group>
@@ -98,12 +111,12 @@ export default function ContactDetails() {
                         if (Object.keys(errors).length < 1) {
                             append({ educationTitle: '', marks: '', startDate: '', endDate: '' })
                         }
-                    }} className="btn btn-sm btn-secondary">
+                    }} className="btn btn-sm btn-secondary" type="button">
                         <i className="fa fa-plus"></i> Add new education
                     </button>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="middleName">
-                    <button disabled={fields?.length < 1 || errors?.contact} type="submit" className="btn btn-secondary">Save</button>
+                    <button disabled={fields?.length < 1} type="submit" className="btn btn-secondary">Save</button>
                 </Form.Group>
             </Form>}
         </RDetailsSection>

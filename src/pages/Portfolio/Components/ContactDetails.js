@@ -8,11 +8,13 @@ import RSpinner from "../../../components/RSpinner";
 import { makingPortfolioPayload } from "../../../redux/action/portfolio";
 import { Col, Row } from "react-bootstrap";
 import { Fragment } from "react";
+import { useEffect } from "react";
 
 export default function ContactDetails() {
     document.title = "PORTFOLIO | CONTACT DETAILS";
 
     const { isLoading, } = useSelector(state => state.auth);
+    const { isLoading: isLoadingPortfolio, requestPayload } = useSelector(state => state.portfolio);
     const dispatch = useDispatch();
 
     const formValidationSchema = {
@@ -25,11 +27,8 @@ export default function ContactDetails() {
             .of(Yup.object().shape(formValidationSchema))
     });
 
-    const { register, handleSubmit, formState: { errors }, control, watch } = useForm({
+    const { register, handleSubmit, formState: { errors }, control, watch, reset } = useForm({
         resolver: yupResolver(schema),
-        defaultValues: {
-            contact: [{ contactTitle: '', contactValue: '' }]
-        }
     });
     const { fields, append, remove } = useFieldArray({
         control,
@@ -37,18 +36,31 @@ export default function ContactDetails() {
 
     });
 
-    const handleRegisterSubmit = (data) => {
-        dispatch(makingPortfolioPayload(data));
+    useEffect(() => {
+        console.log('requestPayload?.contactDetails ==> ', requestPayload?.contactDetails);
+        if (requestPayload?.contactDetails) {
+            requestPayload?.contactDetails?.contact?.forEach((detail) => {
+                append(detail)
+            })
+        }
+        return () => {
+            reset();
+        }
+    }, [requestPayload]);
+
+    const handleContactSubmit = (data) => {
+        dispatch(makingPortfolioPayload({ contactDetails: data }));
     }
+
     return (<>
         <RDetailsSection
             title={<><i className="fas fa-address-card"></i>{" "}<strong>Contact details</strong></>}
             className='mt-2'>
-            {isLoading &&
+            {isLoading || isLoadingPortfolio &&
                 <div className="d-flex justify-content-center pt-3">
                     <RSpinner />
                 </div>}
-            {!isLoading && <Form onSubmit={handleSubmit(handleRegisterSubmit)} noValidate>
+            {!isLoading && <Form onSubmit={handleSubmit(handleContactSubmit)} noValidate>
                 {fields.map((field, i) => (
                     <Fragment key={i}>
                         <Row className="mb-2">
@@ -68,7 +80,7 @@ export default function ContactDetails() {
                             </Col>
                             <Col xs={12} sm={12} md={2} lg={2} className={"pt-3"}>
                                 <Form.Group className="mb-3 d-flex justify-content-end" controlId="buttonGroup">
-                                    <button onClick={() => remove(i)} className="btn btn-sm btn-secondary">
+                                    <button onClick={() => remove(i)} className="btn btn-sm btn-secondary" type="button">
                                         <i className="fa fa-trash"></i>
                                     </button>
                                 </Form.Group>
@@ -87,7 +99,7 @@ export default function ContactDetails() {
                     </button>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="middleName">
-                    <button disabled={fields?.length < 1 || errors?.contact} type="submit" className="btn btn-secondary">Save</button>
+                    <button disabled={fields?.length < 1} type="submit" className="btn btn-secondary">Save</button>
                 </Form.Group>
             </Form>}
         </RDetailsSection>

@@ -1,4 +1,4 @@
-const makingPortfolioPayload = (payload, callback = () => { }) => async (dispatch, selector, { errorHandling }) => {
+const makingPortfolioPayload = (payload, callback = () => { }) => async (dispatch, selector, { errorHandling, RToast }) => {
     try {
         dispatch({
             type: "MAKING_PAYLOAD_FOR_PORTFOLIO",
@@ -6,9 +6,10 @@ const makingPortfolioPayload = (payload, callback = () => { }) => async (dispatc
         });
         dispatch({
             type: "MAKING_PAYLOAD_FOR_PORTFOLIO",
-            status: "PENDING",
+            status: "SUCCESS",
             payload
         });
+        RToast({ type: "SUCCESS", message: "Data has been successfully saved" })
     } catch (error) {
         errorHandling("MAKING_PAYLOAD_FOR_PORTFOLIO", dispatch, error);
     }
