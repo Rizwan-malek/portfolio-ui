@@ -34,7 +34,7 @@ export default function AddEditPage() {
 
     return (<>
         <Container className='pt-2 min-vh-100'>
-            <Suspense fallback={<div className="text-center"><RSpinner /></div>}>
+            <Suspense fallback={<div className="text-center"><RSpinner className={theme === 'dark' ? 'text-white' : 'text-dark'} /></div>}>
                 <Routes>
                     <Route path="/personal" element={<PersonalDetails />} />
                     <Route path="/contact" element={<ContactDetails />} />

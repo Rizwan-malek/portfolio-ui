@@ -27,14 +27,16 @@ export default function ContactDetails() {
 
     const { register, handleSubmit, formState: { errors }, control } = useForm({
         resolver: yupResolver(schema),
-        defaultValues: [{
-            contactTitle: '',
-            contactValueL: ''
-        }]
+        defaultValues: {
+            education: [{
+                contactTitle: '',
+                contactValueL: ''
+            }]
+        }
     });
     const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
         control,
-        name: "contact",
+        name: "education",
     });
 
     const handleRegisterSubmit = (data) => {
@@ -54,15 +56,29 @@ export default function ContactDetails() {
                         <Row className="mb-2">
                             <Col xs={12} sm={12} md={5} lg={5}>
                                 <Form.Group controlId="firstName">
-                                    <Form.Label>Contact title <span className="text-danger">*</span> </Form.Label>
-                                    <Form.Control {...register(`contact.${i}.contactTitle`)} type="text" placeholder="Enter first name" isInvalid={!!errors?.contact?.[i]?.contactTitle} />
+                                    <Form.Label>Title <span className="text-danger">*</span> </Form.Label>
+                                    <Form.Control {...register(`education.${i}.contactTitle`)} type="text" placeholder="Enter first name" isInvalid={!!errors?.contact?.[i]?.contactTitle} />
                                     {!!errors?.contact?.[i]?.contactTitle && <Form.Control.Feedback type="invalid">{errors?.contact?.[i]?.contactTitle?.message}</Form.Control.Feedback>}
                                 </Form.Group>
                             </Col>
                             <Col xs={12} sm={12} md={5} lg={5}>
                                 <Form.Group controlId="middleName">
-                                    <Form.Label>Contact value <span className="text-danger">*</span> </Form.Label>
-                                    <Form.Control {...register(`contact.${i}.contactValue`)} type="text" placeholder="Enter last name" isInvalid={!!errors?.contact?.[i]?.contactValue} />
+                                    <Form.Label>Marks <span className="text-danger">*</span> </Form.Label>
+                                    <Form.Control {...register(`education.${i}.contactValue`)} type="text" placeholder="Enter last name" isInvalid={!!errors?.contact?.[i]?.contactValue} />
+                                    {!!errors?.contact?.[i]?.contactValue && <Form.Control.Feedback type="invalid">{errors?.contact?.[i]?.contactValue?.message}</Form.Control.Feedback>}
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12} sm={12} md={5} lg={5} className="mt-2">
+                                <Form.Group controlId="middleName">
+                                    <Form.Label>Start date <span className="text-danger">*</span> </Form.Label>
+                                    <Form.Control {...register(`education.${i}.contactValue`)} type="text" placeholder="Enter last name" isInvalid={!!errors?.contact?.[i]?.contactValue} />
+                                    {!!errors?.contact?.[i]?.contactValue && <Form.Control.Feedback type="invalid">{errors?.contact?.[i]?.contactValue?.message}</Form.Control.Feedback>}
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12} sm={12} md={5} lg={5} className="mt-2">
+                                <Form.Group controlId="middleName">
+                                    <Form.Label>End date <span className="text-danger">*</span> </Form.Label>
+                                    <Form.Control {...register(`education.${i}.contactValue`)} type="text" placeholder="Enter last name" isInvalid={!!errors?.contact?.[i]?.contactValue} />
                                     {!!errors?.contact?.[i]?.contactValue && <Form.Control.Feedback type="invalid">{errors?.contact?.[i]?.contactValue?.message}</Form.Control.Feedback>}
                                 </Form.Group>
                             </Col>
@@ -74,12 +90,13 @@ export default function ContactDetails() {
                                 </Form.Group>
                             </Col>
                         </Row>
+                        <hr />
                     </Fragment>
                 ))}
                 <Form.Group className="mb-3 d-flex justify-content-end gap-1" controlId="buttonGroup">
                     <button onClick={() => {
                         if (Object.keys(errors).length < 1) {
-                            append({ contactTitle: '', contactValue: '' })
+                            append({ educationTitle: '', marks: '', startDate: '', endDate: '' })
                         }
                     }} className="btn btn-sm btn-secondary">
                         <i className="fa fa-plus"></i> Add new education

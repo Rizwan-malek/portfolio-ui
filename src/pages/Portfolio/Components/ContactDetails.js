@@ -25,16 +25,16 @@ export default function ContactDetails() {
             .of(Yup.object().shape(formValidationSchema))
     });
 
-    const { register, handleSubmit, formState: { errors }, control } = useForm({
+    const { register, handleSubmit, formState: { errors }, control, watch } = useForm({
         resolver: yupResolver(schema),
-        defaultValues: [{
-            contactTitle: '',
-            contactValueL: ''
-        }]
+        defaultValues: {
+            contact: [{ contactTitle: '', contactValue: '' }]
+        }
     });
-    const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
+    const { fields, append, remove } = useFieldArray({
         control,
         name: "contact",
+
     });
 
     const handleRegisterSubmit = (data) => {
@@ -74,6 +74,7 @@ export default function ContactDetails() {
                                 </Form.Group>
                             </Col>
                         </Row>
+                        <hr />
                     </Fragment>
                 ))}
                 <Form.Group className="mb-3 d-flex justify-content-end gap-1" controlId="buttonGroup">
