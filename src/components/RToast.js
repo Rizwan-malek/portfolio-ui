@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 export default function RToast({ type, message }) {
-    const options = { autoClose: 1000, position: toast.POSITION.TOP_CENTER };
+    const options = { autoClose: 3000, position: toast.POSITION.TOP_CENTER };
     switch (type) {
         case "SUCCESS":
             return toast.success(message, options);

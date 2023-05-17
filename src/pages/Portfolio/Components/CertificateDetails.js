@@ -8,73 +8,85 @@ import RSpinner from "../../../components/RSpinner";
 import { makingPortfolioPayload } from "../../../redux/action/portfolio";
 import { Col, Row } from "react-bootstrap";
 import { Fragment } from "react";
+import { useEffect } from "react";
 
 export default function CertificateDetails() {
     document.title = "PORTFOLIO | CONTACT DETAILS";
 
     const { isLoading, } = useSelector(state => state.auth);
+    const { isLoading: isLoadingPortfolio, requestPayload } = useSelector(state => state.portfolio);
     const dispatch = useDispatch();
 
     const formValidationSchema = {
-        contactTitle: Yup.string().required("Contact title is required"),
-        contactValue: Yup.string().required("Contact value is required"),
+        title: Yup.string().required("Title is required"),
+        organization: Yup.string().required("Organization is required"),
     };
 
     const schema = Yup.object({
-        contact: Yup.array()
+        certificate: Yup.array()
             .of(Yup.object().shape(formValidationSchema))
     });
 
-    const { register, handleSubmit, formState: { errors }, control, watch } = useForm({
+    const { register, handleSubmit, formState: { errors }, control, reset } = useForm({
         resolver: yupResolver(schema),
-        defaultValues: {
-            contact: [{ contactTitle: '', contactValue: '' }]
-        }
     });
-    const { fields, append, remove } = useFieldArray({
+    const { fields, append, remove, } = useFieldArray({
         control,
-        name: "contact",
-
+        name: "certificate",
     });
 
-    const handleRegisterSubmit = (data) => {
-        dispatch(makingPortfolioPayload(data));
+    useEffect(() => {
+        if (requestPayload?.certificateDetails) {
+            requestPayload?.certificateDetails?.certificate?.forEach((detail) => append(detail))
+        }
+        return () => reset();
+    }, [requestPayload]);
+
+
+    const handlecertificateSubmit = (data) => {
+        dispatch(makingPortfolioPayload({ certificateDetails: data }));
     }
     return (<>
         <RDetailsSection
-            title={<><i className="fa fa-certificate"></i>{" "}<strong>Certificate & Licenses details</strong></>}
+            title={<><i className="fa fa-certificate"></i>{" "}<strong>Certificate details</strong></>}
             className='mt-2'>
             {isLoading &&
                 <div className="d-flex justify-content-center pt-3">
                     <RSpinner />
                 </div>}
-            {!isLoading && <Form onSubmit={handleSubmit(handleRegisterSubmit)} noValidate>
+            {!isLoading && <Form onSubmit={handleSubmit(handlecertificateSubmit)} noValidate>
                 {fields.map((field, i) => (
                     <Fragment key={i}>
                         <Row className="mb-2">
                             <Col xs={12} sm={12} md={5} lg={5}>
-                                <Form.Group controlId="firstName">
-                                    <Form.Label>Contact title <span className="text-danger">*</span> </Form.Label>
-                                    <Form.Control {...register(`contact.${i}.contactTitle`)} type="text" placeholder="Enter first name" isInvalid={!!errors?.contact?.[i]?.contactTitle} />
-                                    {!!errors?.contact?.[i]?.contactTitle && <Form.Control.Feedback type="invalid">{errors?.contact?.[i]?.contactTitle?.message}</Form.Control.Feedback>}
+                                <Form.Group controlId="title">
+                                    <Form.Label>Title <span className="text-danger">*</span> </Form.Label>
+                                    <Form.Control {...register(`certificate.${i}.title`)} type="text" placeholder="Enter first name" isInvalid={!!errors?.certificate?.[i]?.title} />
+                                    {!!errors?.certificate?.[i]?.title && <Form.Control.Feedback type="invalid">{errors?.certificate?.[i]?.title?.message}</Form.Control.Feedback>}
                                 </Form.Group>
                             </Col>
                             <Col xs={12} sm={12} md={5} lg={5}>
-                                <Form.Group controlId="middleName">
-                                    <Form.Label>Contact value <span className="text-danger">*</span> </Form.Label>
-                                    <Form.Control {...register(`contact.${i}.contactValue`)} type="text" placeholder="Enter last name" isInvalid={!!errors?.contact?.[i]?.contactValue} />
-                                    {!!errors?.contact?.[i]?.contactValue && <Form.Control.Feedback type="invalid">{errors?.contact?.[i]?.contactValue?.message}</Form.Control.Feedback>}
+                                <Form.Group controlId="organization">
+                                    <Form.Label>Organization <span className="text-danger">*</span> </Form.Label>
+                                    <Form.Control {...register(`certificate.${i}.organization`)} type="text" placeholder="Enter first name" isInvalid={!!errors?.certificate?.[i]?.organization} />
+                                    {!!errors?.certificate?.[i]?.organization && <Form.Control.Feedback type="invalid">{errors?.certificate?.[i]?.organization?.message}</Form.Control.Feedback>}
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12} sm={12} md={10} lg={10} className="mt-2">
+                                <Form.Group controlId="description">
+                                    <Form.Label>Description <span className="text-danger">*</span> </Form.Label>
+                                    <Form.Control {...register(`certificate.${i}.description`)} as="textarea" placeholder="Enter last name" isInvalid={!!errors?.contact?.[i]?.description} rows={4} />
+                                    {!!errors?.certificate?.[i]?.description && <Form.Control.Feedback type="invalid">{errors?.certificate?.[i]?.description?.message}</Form.Control.Feedback>}
                                 </Form.Group>
                             </Col>
                             <Col xs={12} sm={12} md={2} lg={2} className={"pt-3"}>
                                 <Form.Group className="mb-3 d-flex justify-content-end" controlId="buttonGroup">
-                                    <button onClick={() => remove(i)} className="btn btn-sm btn-secondary">
+                                    <button onClick={() => remove(i)} className="btn btn-sm btn-secondary" type="button">
                                         <i className="fa fa-trash"></i>
                                     </button>
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <hr />
                     </Fragment>
                 ))}
                 <Form.Group className="mb-3 d-flex justify-content-end gap-1" controlId="buttonGroup">
@@ -87,7 +99,7 @@ export default function CertificateDetails() {
                     </button>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="middleName">
-                    <button disabled={fields?.length < 1 || errors?.contact} type="submit" className="btn btn-secondary">Save</button>
+                    <button disabled={fields?.length < 1} type="submit" className="btn btn-secondary">Save</button>
                 </Form.Group>
             </Form>}
         </RDetailsSection>

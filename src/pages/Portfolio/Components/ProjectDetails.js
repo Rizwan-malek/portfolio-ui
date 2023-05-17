@@ -40,7 +40,6 @@ export default function ProjectDetails() {
             requestPayload?.projectDetails?.project?.forEach((detail) => append(detail))
         }
         return () => reset();
-
     }, [requestPayload]);
 
 

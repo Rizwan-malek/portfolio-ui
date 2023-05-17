@@ -9,7 +9,7 @@ const HomePage = lazy(() => import("../pages/Home/HomePage"));
 const LoginPage = lazy(() => import("../pages/Auth/LoginPage"));
 
 const PUBLIC_ROUTES = [{
-    name: "Redirect tot home",
+    name: "Redirect to home",
     path: "*",
     element: <Navigate to="/" />
 }, {
