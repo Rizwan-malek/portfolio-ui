@@ -33,15 +33,11 @@ export default function ContactDetails() {
     const { fields, append, remove } = useFieldArray({
         control,
         name: "contact",
-
     });
 
     useEffect(() => {
-        console.log('requestPayload?.contactDetails ==> ', requestPayload?.contactDetails);
         if (requestPayload?.contactDetails) {
-            requestPayload?.contactDetails?.contact?.forEach((detail) => {
-                append(detail)
-            })
+            requestPayload?.contactDetails?.contact?.forEach((detail) => append(detail))
         }
         return () => {
             reset();

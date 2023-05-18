@@ -51,8 +51,8 @@ export default function RegisterPage() {
                 {!isLoading && <Form onSubmit={handleSubmit(handleRegisterSubmit)} noValidate>
                     <Form.Group className="mb-3" controlId="firstName">
                         <Form.Label>First name <span className="text-danger">*</span> </Form.Label>
-                        <Form.Control {...register("firstName")} type="text" placeholder="Enter first name" isInvalid={!!errors.firstName} />
-                        {!!errors.firstName && <Form.Control.Feedback type="invalid">{errors.firstName.message}</Form.Control.Feedback>}
+                        <Form.Control {...register("firstName")} type="text" placeholder="Enter first name" isInvalid={!!errors?.firstName} />
+                        {!!errors?.firstName && <Form.Control.Feedback type="invalid">{errors.firstName.message}</Form.Control.Feedback>}
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="lastName">
                         <Form.Label>Last name <span className="text-danger">*</span></Form.Label>

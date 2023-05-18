@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux"
 import Container from "../layouts/Container";
+import { Navigate } from "react-router-dom";
 
 export function PrivateRoute({ children }) {
     const { token } = useSelector(state => state.auth);
@@ -17,5 +18,7 @@ export function PrivateRoute({ children }) {
 // }
 
 export function PublicRoute({ children }) {
-    return children
+    const { token } = useSelector(state => state.auth);
+    return !token ? children : <Navigate to="/dashboard" />
+    // return children
 }
