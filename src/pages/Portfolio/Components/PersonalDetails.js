@@ -35,8 +35,6 @@ export default function PersonalDetails() {
     const handleRegisterSubmit = (data) => {
         dispatch(makingPortfolioPayload({ personalDetails: data }));
     }
-    console.log('render ==> ');
-
     return (<>
         <RDetailsSection
             title={<><i className="fa fa-user-plus"></i>{" "}<strong>Personal details</strong></>}

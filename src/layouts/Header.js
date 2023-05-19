@@ -23,7 +23,13 @@ function Header() {
                         <Nav.Link onClick={() => navigate("/")}>
                             <i className="fa fa-home"></i> Home
                         </Nav.Link>
-                        <Nav.Link onClick={() => navigate("/portfolio/create/personal")}>
+                        <Nav.Link onClick={() => {
+                            dispatch({
+                                type: "CHANGE_ROUTE",
+                                payload: 0
+                            })
+                            navigate("/portfolio/create/personal")
+                        }}>
                             <i className="fa fa-plus"></i> Create Portfolio
                         </Nav.Link>
                         <Nav.Link onClick={() => navigate("/portfolio")}>
