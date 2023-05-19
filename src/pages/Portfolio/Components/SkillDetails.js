@@ -50,8 +50,6 @@ export default function ContactDetails() {
 
 
     const handleSkillSubmit = (data) => {
-        console.log('data ==> ', data);
-
         dispatch(makingPortfolioPayload({ skillDetails: data }));
     }
 

@@ -37,8 +37,6 @@ const AddEditPage = () => {
     const handlePortfolioCreateSubmit = () => {
         // code
     }
-    console.log('route ==> ', route);
-    // console.log('routes ==> ', routes);
 
     return (
         <Container className='pt-2 min-vh-100'>
@@ -56,7 +54,7 @@ const AddEditPage = () => {
                     <Route path="/preview/:template" element={<PreviewTemplate />} />
                 </Routes>
             </Suspense>
-            <div className="mt-2">
+            <div className="mt-2 mb-3">
                 <button onClick={() => {
                     // setRouteCount(prev => prev === 0 ? 0 : prev - 1);
                     dispatch({ type: "CHANGE_ROUTE", payload: route === 0 ? 0 : route - 1 })

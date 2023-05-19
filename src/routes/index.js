@@ -4,6 +4,9 @@ import RegisterPage from "../pages/Auth/RegisterPage";
 import AddEditPage from "../pages/Portfolio/AddEditPage";
 import PortfolioListPage from "../pages/Portfolio/PortfolioListPage";
 import { PrivateRoute, PublicRoute } from "./PermissionRoute";
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 const HomePage = lazy(() => import("../pages/Home/HomePage"));
 const LoginPage = lazy(() => import("../pages/Auth/LoginPage"));
