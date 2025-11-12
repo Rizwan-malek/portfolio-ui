@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 // app.use("/api", routes);
 
 // Start the server
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`✅ Server started on http://localhost:${PORT}`);
 });
